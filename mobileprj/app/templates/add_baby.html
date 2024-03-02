@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>add_baby</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        what allergies do they have?
+        {% for a in allergies %}
+        <input  type="hidden" name="add_allergy" value="{{a.id}}">
+        <input type="submit" value="had" id="submit"></input>
+        {% endfor %}
+        <input type="submit" value="add_baby" id="submit">
+    </form>
+    
+</body>
+</html>

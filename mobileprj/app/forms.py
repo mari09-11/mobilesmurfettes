@@ -15,13 +15,3 @@ class Add_Baby_Form(forms.ModelForm):
     class Meta:
         model = Baby
         fields = "__all__"
-
-class Check_Vaccine_beginning_Form(forms.ModelForm):
-    class Meta:
-        model = Vaccine
-        fields = ['nom_v', 'date']
-
-class Check_Vaccine_Form(forms.ModelForm):
-    class Meta:
-        model = Vaccine
-        fields = ['est_fait']

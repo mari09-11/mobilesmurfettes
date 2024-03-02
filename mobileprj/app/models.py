@@ -28,9 +28,12 @@ class Baby(models.Model):
 
 class Allergy(models.Model):
     nom_a = models.CharField(max_length = 50),
-    associated_baby_a = models.ForeignKey(Baby, on_delete = models.CASCADE),
     def __str__(self):
         return str(self.nom_a)
+
+class Allergic_Baby(models.Model):
+    allergy_ab = models.ForeignKey(Allergy, on_delete = models.CASCADE),
+    associated_baby_ab = models.ForeignKey(Baby, on_delete = models.CASCADE),
 
 class Vaccine_Month(models.Model):
     nom_vm = models.IntegerField(),
@@ -39,9 +42,12 @@ class Vaccine_Month(models.Model):
 
 class Vaccine(models.Model):
     nom_v = models.CharField(max_length = 50),
-    date = models.DateTimeField(),
+    date = models.DateTimeField(default=None),
     month = models.ForeignKey(Vaccine_Month, on_delete = models.CASCADE),
-    est_fait = models.BooleanField(),
-    associated_baby_v = models.ForeignKey(Baby, on_delete = models.CASCADE),
     def __str__(self):
         return str(self.nom_v)
+
+class Vaccined_Baby(models.Model):
+    vaccine_vb = models.ForeignKey(Vaccine_Month, on_delete = models.CASCADE),
+    associated_baby_vb = models.ForeignKey(Baby, on_delete = models.CASCADE),
+    date = models.DateTimeField(),

@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import  Baby, Allergy, Vaccine_Month, Vaccine,User
-from .forms import Add_Baby_Form, Check_Vaccine_beginning_Form, Check_Vaccine_Form, Log_In_Form, Sign_In_Form
+from .models import  Baby, Allergy, Vaccine_Month, Vaccine,User, Vaccined_Baby
+from .forms import Add_Baby_Form, Log_In_Form, Sign_In_Form
 from datetime import date
 from django.db.models import Sum
 from django.urls import reverse
 
-    # path("sautentifier/login/", views.log_in),
+
 def log_in(request):
     log_in_form_sent = request.POST.get('log_in_form')
     if log_in_form_sent:
@@ -22,7 +22,6 @@ def log_in(request):
     message = "error"
     return render(request,'login.html',{"message":message})
 
-    # path("sautentifier/signin/", views.signin),
 def signin(request):
     sign_in_form_sent = request.POST.get('sign_in_form')
     if sign_in_form_sent:
@@ -39,7 +38,39 @@ def signin(request):
     message = "error"
     return render(request,'signin.html',{"message":message})
 
-    # path("bienvenu/", views.bienvenu),
-    # path("add_baby/general/", views.add_baby_general),
-    # path("add_baby/remplir_vacsination/", views.add_baby_remplir_vacsination),
-    # path("calendrier/", views.calendrier),
+def bienvenu(request, pk):
+    user = User.objects.get(id=pk)
+    list_enfants = Baby.objects.filter(associated_user=user)
+    return render(request,'bienvenu.html',{"list_enfants":list_enfants})
+
+def add_baby_general(request, pk):
+    if request.method == 'POST':
+        form = Add_Baby_Form(request.POST)
+        if form.is_valid():
+            tmp = form.save()
+            return redirect(reverse("remplir_vacsination", args=[pk, tmp.id]))
+    else:
+        form = Add_Baby_Form()
+        allergies = Allergy.objects.all()
+    return render(request, "add_baby.html", {"form": form, "allergies": allergies})
+
+def remplir_vacsination(request, pk1, pk2):
+    vaccines = Vaccine.objects.all()
+    return render(request,'remplir_vacsination.html',{"vaccines":vaccines, "pk2":pk2})
+
+def calendrier(request, pk1, pk2):
+    none_vaccined_Months = []
+    vaccined_Months = []
+    months = Vaccine_Month.objects.all()
+    for vm in months:
+        b = 0
+        Vaccine_for_vm = Vaccine.objects.filter(month=vm)
+        for v in Vaccine_for_vm:
+            # idk if this would work alone without specifying the parent
+            exist = Vaccined_Baby.objects.filter(associated_baby_vb=pk2, vaccine_vb=v)
+            if exist == None:
+                none_vaccined_Months.append(vm)
+                b = 1
+        if b == 0:
+            vaccined_Months.append(vm)
+    return render(request, "calendrier.html", {"none_vaccined_Months": none_vaccined_Months, "vaccined_Months": vaccined_Months})

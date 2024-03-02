@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>remplir_vacsination</title>
+</head>
+<body>
+    what vacsination did they have?
+        {% for v in vaccines %}
+        <form method="post">
+            {% csrf_token %}
+            <input  type="hidden" name="remplir_vacsination" value="{{v.id}}">
+            <input  type="hidden" name="kid" value="{{pk2}}">
+            <input type="submit" value="had" id="submit"></input>
+        </form>
+        {% endfor %}
+</body>
+</html>

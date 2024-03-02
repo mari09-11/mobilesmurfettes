@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>calemdrier</title>
+</head>
+<body>
+    <h2>mes vaccins :</h2>
+    {% for vm in vaccined_Months %}
+        <div>Les vaccines de {{vm.nom_vm}}</div>
+    {% endfor %}
+    prochine vaccine
+    {% for nvm in none_vaccined_Months %}
+        <div>Les vaccines de {{nvm.nom_vm}}</div>
+    {% endfor %}
+</body>
+</html>
