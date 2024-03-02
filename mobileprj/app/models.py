@@ -34,6 +34,7 @@ class Allergy(models.Model):
 class Allergic_Baby(models.Model):
     allergy_ab = models.ForeignKey(Allergy, on_delete = models.CASCADE),
     associated_baby_ab = models.ForeignKey(Baby, on_delete = models.CASCADE),
+    associated_user_ab = models.ForeignKey(User, on_delete = models.CASCADE),
 
 class Vaccine_Month(models.Model):
     nom_vm = models.IntegerField(),
@@ -51,3 +52,4 @@ class Vaccined_Baby(models.Model):
     vaccine_vb = models.ForeignKey(Vaccine_Month, on_delete = models.CASCADE),
     associated_baby_vb = models.ForeignKey(Baby, on_delete = models.CASCADE),
     date = models.DateTimeField(),
+    associated_user_vb = models.ForeignKey(User, on_delete = models.CASCADE),

@@ -86,5 +86,10 @@
       <button type="submit">Signup</button>
       <a href="{% url 'login' %}">Already have account?</a>
     </form>
+    <script>
+      {% if message %}
+        alert("{{ message }}");
+      {% endif %}
+    </script>  
   </body>
 </html>
